@@ -1,28 +1,47 @@
 import nltk
 from nltk import word_tokenize
 import io
+import glob
 
-def normalize_file():
-	path = 'corpora/training/AlmadaNegreiros/'
-	f = io.open(path+"pg22615.txt", 'r', encoding='utf8')
+def read_writer_file(path):
+	f = io.open(path, 'r', encoding='utf8')
 	read_data = f.read()
 	f.close()
-
-	nltk.download('punkt')
-
-	tokens = word_tokenize( read_data)
 	
-	f=io.open(path+"pg22615_a.txt", 'w', encoding='utf8')
+	return read_data	
+
+def normalize_file(data, writer):
 	
+	output_path = 'output/'+writer+'/'+writer+'.txt'
+
+	tokens = word_tokenize(data)
+
+	f=io.open(output_path, 'w', encoding='utf8')
+
 	for token in tokens:
-		print token
 		f.write(token+" ")
-
 	f.close()
 
-def main():
-    normalize_file()
+def read_writer_files(writer):
+	path = 'corpora/training/' + writer + '/*.txt'
+	files = glob.glob(path)
+	
+	read_data = ""
+	
+	for i in range(len(files)):
+		read_data += read_writer_file(files[i])
 
+	normalize_file(read_data, writer)
+
+def read_files():
+	writers = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
+	for i in range(len(writers)):
+		print "Writing normalized files of:", writers[i]
+		read_writer_files(writers[i])
+
+def main():
+	nltk.download('punkt')
+	read_files()
 
 if __name__ == '__main__':
     main()
