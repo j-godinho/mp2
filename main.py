@@ -22,12 +22,6 @@ def calc_n_grams(text, lower, upper):
 
     return dict ( Counter(ngrams) )
 
-def space_normalization(path):
-    f = open(path).read()
-    f = re.sub('([.,!?():\[\]_+#])', r' \1 ', f)                                       # TODO: check if _ ' + [ ] : # are punctuation
-    return re.sub('\s{2,}', ' ', f)
-
-
 def main():
     text = space_normalization('corpora/training/AlmadaNegreiros/pg22730.txt')
     counts = calc_n_grams(text, 1, 2)
