@@ -16,7 +16,7 @@ def space_normalization(path):
 
 
 def main():
-    print space_normalization('corpora/training/AlmadaNegreiros/pg22730.txt')
+    print space_normalization('corpora/training/AlmadaNegreiros/pg22615.txt')
 
 if __name__ == '__main__':
     main()
