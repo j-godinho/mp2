@@ -77,7 +77,7 @@ def normalize_tests():
 def main():
 	nltk.download('punkt')
 	#normalize all training files
-	read_files()
+	#read_files()
 	
 	#normalize test files
 	normalize_tests()
