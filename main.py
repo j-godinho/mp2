@@ -30,6 +30,5 @@ def main():
     for key in counts.keys():
         print '{}\t\t\t{}\t\t\t{}'.format(key.encode('utf-8'), counts[key], counts_smoothed[key])
 
-
 if __name__ == '__main__':
     main()
