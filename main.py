@@ -28,7 +28,7 @@ def calc_n_grams(text, lower, upper):
     return dict ( Counter(ngrams) )
 
 
-def average_words_sentence(path, writer):
+def average_words_sentence(path):
 	#.!?;
 	#...
 
@@ -50,12 +50,36 @@ def analyze_writers():
 	for i in range(len(writers)):
 		print "Analyzing average words per sentence of:", writers[i]
 		path = 'output/' + writers[i]+'/' + writers[i] + '.txt'
-		writers_dict[writers[i]] = average_words_sentence(path, writers[i])
+		writers_dict[writers[i]] = average_words_sentence(path)
 	return writers_dict
+
+def compare_values(writers_dict, value):
+	
+	min_value = 999999
+	writer_chosen = ""
+	for key in writers_dict:
+		distance = abs(writers_dict[key]-value)
+		if(distance<min_value):
+			writer_chosen = key
+			min_value=distance
+
+	return writer_chosen
+	
+
 
 def analyze_files():
 	writers_dict = analyze_writers()
 
+	#analyze first path
+	path500 = 'corpora/test/500Palavras/'
+
+	files = glob.glob(path500+"*.txt")
+
+	for file in files:
+		average_words = average_words_sentence(file)
+		print file + " " + compare_values(writers_dict, average_words)
+
+	#analyze second path
 
 	
 
