@@ -1,14 +1,18 @@
+import nltk
+from nltk import word_tokenize
+import io
 
-import re
 def normalize_file():
 	path = 'corpora/training/AlmadaNegreiros/'
-	f = open(path+"pg22615.txt", 'r')
+	f = io.open(path+"pg22615.txt", 'r', encoding='utf8')
 	read_data = f.read()
 	f.close()
-	tokens = re.findall(r"\w+(?:[-']\w+)*|'|[-.(]+|\S\w*", read_data)
-	
 
-	f=open(path+"pg22615_a.txt", 'w')
+	nltk.download('punkt')
+
+	tokens = word_tokenize( read_data)
+	
+	f=io.open(path+"pg22615_a.txt", 'w', encoding='utf8')
 	
 	for token in tokens:
 		print token
