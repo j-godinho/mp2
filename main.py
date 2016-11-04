@@ -1,14 +1,15 @@
 
 import re
 def normalize_file():
-	path = 'corpora/training/AlmadaNegreiros/pg22615.txt'
-	f = open(path, 'r')
+	path = 'corpora/training/AlmadaNegreiros/'
+	f = open(path+"pg22615.txt", 'r')
 	read_data = f.read()
 	f.close()
 	tokens = re.findall(r"\w+(?:[-']\w+)*|'|[-.(]+|\S\w*", read_data)
 	
 
-	f=open(path, 'w')
+	f=open(path+"pg22615_a.txt", 'w')
+	
 	for token in tokens:
 		print token
 		f.write(token+" ")
