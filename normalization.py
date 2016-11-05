@@ -7,16 +7,14 @@ def read_writer_file(path):
 	f = io.open(path, 'r', encoding='utf8')
 	read_data = f.read()
 	f.close()
-	
-	return read_data	
+
+	return read_data
 
 def normalize_file(data, writer):
-	
 	output_path = 'output/'+writer+'/'+writer+'.txt'
-
 	tokens = word_tokenize(data)
 
-	f=io.open(output_path, 'w', encoding='utf8')
+	f = io.open(output_path, 'w', encoding='utf8')
 
 	for token in tokens:
 		f.write(token+" ")
@@ -25,9 +23,8 @@ def normalize_file(data, writer):
 def read_writer_files(writer):
 	path = 'corpora/training/' + writer + '/*.txt'
 	files = glob.glob(path)
-	
 	read_data = ""
-	
+
 	for i in range(len(files)):
 		read_data += read_writer_file(files[i])
 
@@ -40,18 +37,14 @@ def read_files():
 		read_writer_files(writers[i])
 
 def normalize_test_file(path, output_path, index):
-
 	data = read_writer_file(path)
-
 	tokens = word_tokenize(data)
-
 	output_path = output_path+str(index)+".txt"
 
-	f=io.open(output_path, 'w', encoding='utf8')
+	f = io.open(output_path, 'w', encoding='utf8')
 
 	for token in tokens:
 		f.write(token+" ")
-
 	f.close()
 
 
@@ -70,15 +63,12 @@ def normalize_tests():
 	for i in range (len(files)):
 		normalize_test_file(files[i], path_output2, i)
 
-
-
-
-
 def main():
 	nltk.download('punkt')
+
 	#normalize all training files
-	#read_files()
-	
+	read_files()
+
 	#normalize test files
 	normalize_tests()
 
