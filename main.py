@@ -66,7 +66,7 @@ def compare_values(writers_dict, value):
     
 
 
-def analyze_files():
+def analyze_avg_words_sentence():
     writers_dict = analyze_writers()
 
     #analyze first path
@@ -83,7 +83,7 @@ def analyze_files():
     
 
 def main():
-    analyze_files()
+    analyze_avg_words_sentence()
 
 
 if __name__ == '__main__':
