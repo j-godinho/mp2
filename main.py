@@ -1,7 +1,7 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from collections import Counter
 import re
-
+import io
 def add_one_smoothing(d, n):
     ds = dict ()
     v = len(d.keys())
@@ -16,7 +16,7 @@ def calc_number_of_tokens(counts):
     return n
 
 def calc_n_grams(text, lower, upper):
-    vectorizer = CountVectorizer(ngram_range=(lower,upper))
+    vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False)
     analyze = vectorizer.build_analyzer()
     ngrams = analyze(text)
 

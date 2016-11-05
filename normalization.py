@@ -2,6 +2,8 @@ import nltk
 from nltk import word_tokenize
 import io
 import glob
+import string
+import sys
 
 def read_writer_file(path):
 	f = io.open(path, 'r', encoding='utf8')
@@ -10,19 +12,8 @@ def read_writer_file(path):
 	
 	return read_data	
 
-def normalize_file(data, writer):
-	
-	output_path = 'output/'+writer+'/'+writer+'.txt'
 
-	tokens = word_tokenize(data)
-
-	f=io.open(output_path, 'w', encoding='utf8')
-
-	for token in tokens:
-		f.write(token+" ")
-	f.close()
-
-def read_writer_files(writer):
+def read_writer_files(writer, flag):
 	path = 'corpora/training/' + writer + '/*.txt'
 	files = glob.glob(path)
 	
@@ -31,13 +22,32 @@ def read_writer_files(writer):
 	for i in range(len(files)):
 		read_data += read_writer_file(files[i])
 
-	normalize_file(read_data, writer)
+	normalize_train_file(read_data, writer, flag)
 
-def read_files():
+def read_train_files(flag):
 	writers = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
 	for i in range(len(writers)):
 		print "Writing normalized files of:", writers[i]
-		read_writer_files(writers[i])
+		read_writer_files(writers[i], flag)
+
+def normalize_train_file(data, writer, flag):
+	
+	output_path = 'output/'+writer+'/'+writer+'.txt'
+
+	tokens = word_tokenize(data)
+
+	f=io.open(output_path, 'w', encoding='utf8')
+
+	for token in tokens:
+		if(flag == 0):
+			f.write(token + " ")
+		if(flag==1):
+			f.write(token.lower() + " ")
+		if(flag==2):
+			if(token not in string.punctuation):
+				f.write(token + " ")
+	f.close()
+
 
 def normalize_test_file(path, output_path, index, flag):
 
@@ -50,14 +60,19 @@ def normalize_test_file(path, output_path, index, flag):
 	f=io.open(output_path, 'w', encoding='utf8')
 
 	for token in tokens:	
+		if(flag == 0):
+			f.write(token + " ")
 		if(flag==1):
-			token = token.lower()
-		f.write(token+" ")
-
+			f.write(token.lower() + " ")
+		if(flag==2):
+			if(token not in string.punctuation):
+				f.write(token + " ")
+			
 	f.close()
 
 
 def normalize_tests(flag):
+	print "Normalizing test files"
 	path_input1 = 'corpora/test/500Palavras/*.txt'
 	path_input2 = 'corpora/test/1000Palavras/*.txt'
 
@@ -75,13 +90,16 @@ def normalize_tests(flag):
 
 def main():
 	nltk.download('punkt')
-	#normalize all training files
-	#read_files()
 	
-	#normalize test files
+	flag = int(sys.argv[1])
 	#flag 0 - punctuation with a space on left and right
 	#flag 1 - same as flag 0 but without capital letters
-	flag = 1 
+	#flag 2 - same as flag 0 but without punctuation
+	
+	#normalize all training files
+	read_train_files(flag)
+	
+	#normalize test files
 	normalize_tests(flag)
 
 if __name__ == '__main__':
