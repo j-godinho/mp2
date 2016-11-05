@@ -91,16 +91,13 @@ def normalize_tests(flag):
 def main():
 	nltk.download('punkt')
 	
-	flag = int(sys.argv[1])
-	#flag 0 - punctuation with a space on left and right
-	#flag 1 - same as flag 0 but without capital letters
-	#flag 2 - same as flag 0 but without punctuation
-	
+	norm_flag = int(sys.argv[1])
+
 	#normalize all training files
-	read_train_files(flag)
+	read_train_files(norm_flag)
 	
 	#normalize test files
-	normalize_tests(flag)
+	normalize_tests(norm_flag)
 
 if __name__ == '__main__':
     main()

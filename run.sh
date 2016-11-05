@@ -14,7 +14,10 @@ mkdir -p output/test/1000Palavras
 
 #script to normalize all given tests and training files
 #flag 0 - punctuation surrounded by spaces
-#flag 1 - lower capital letters
+#flag 1 - lower capital letters without punctuation
 #flag 2 - remove punctuation
-norm_flag="1"
+#flag 3 - without punctuation and portuguese stop words were removed
+norm_flag="2"
 python normalization.py $norm_flag
+
+python main.py $norm_flag
