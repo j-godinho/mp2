@@ -38,6 +38,9 @@ def normalize_train_file(data, writer, flag):
 
 	f=io.open(output_path, 'w', encoding='utf8')
 
+	if(flag == 3):
+		stopwords = nltk.corpus.stopwords.words('portuguese')
+		
 	for token in tokens:
 		if(flag == 0):
 			f.write(token + " ")
@@ -45,6 +48,9 @@ def normalize_train_file(data, writer, flag):
 			f.write(token.lower() + " ")
 		if(flag==2):
 			if(token not in string.punctuation):
+				f.write(token + " ")
+		if(flag==3):
+			if(token not in stopwords):
 				f.write(token + " ")
 	f.close()
 
@@ -59,6 +65,9 @@ def normalize_test_file(path, output_path, index, flag):
 
 	f=io.open(output_path, 'w', encoding='utf8')
 
+	if(flag == 3):
+		stopwords = nltk.corpus.stopwords.words('portuguese')
+
 	for token in tokens:	
 		if(flag == 0):
 			f.write(token + " ")
@@ -67,7 +76,10 @@ def normalize_test_file(path, output_path, index, flag):
 		if(flag==2):
 			if(token not in string.punctuation):
 				f.write(token + " ")
-			
+		if(flag==3):
+			if(token not in stopwords):
+				f.write(token + " ")
+
 	f.close()
 
 
@@ -89,7 +101,6 @@ def normalize_tests(flag):
 
 
 def main():
-	nltk.download('punkt')
 	
 	norm_flag = int(sys.argv[1])
 
