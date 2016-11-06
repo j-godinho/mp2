@@ -20,35 +20,7 @@ def read_file(path):
 
     return text
 
-def add_one_smoothing(count, n, v):
-    return float(count + 1) * ( float(n) / (n + v) )
-
-def smoothing_unigrams(unigrams, n, v):
-    ds = dict ()
-    for key in unigrams.keys():
-        ds[key] = add_one_smoothing( unigrams[key], n, v )
-    return ds
-
-def smoothing_bigrams(unigrams, bigrams, v):
-    ds = dict ()
-    for key in bigrams.keys():
-        n = unigrams[ key.split()[1] ]
-        ds[key] = add_one_smoothing( bigrams[key], n, v )
-
-def calc_number_of_tokens(counts):
-    n = 0
-    for i in counts.values():
-        n += i
-    return n
-
-def calc_n_grams(text, lower, upper):
-    vectorizer = CountVectorizer(ngram_range=(lower,upper))
-    analyze = vectorizer.build_analyzer()
-    ngrams = analyze(text)
-
-    return dict ( Counter(ngrams) )
-
-def output_with_smoothing(path, writer):
+def output_with_smoothing(path, w):
     f_u = io.open(path + 'smoothed_unigrams.txt', 'w', encoding='utf8')
     for key in w.s_unigrams.keys():
         f_u.write( key + '\t' + str(w.s_unigrams[key]) + '\n')
@@ -69,6 +41,51 @@ def output_without_smoothing(path, w):
     for key in w.bigrams.keys():
         f_b.write( key + '\t' + str(w.bigrams[key]) + '\n')
     f_b.close()
+
+def add_one_smoothing(count, n, v):
+    return float(count + 1) * ( float(n) / (n + v) )
+
+def smoothing_unigrams(unigrams, n, v):
+    ds = dict ()
+    for key in unigrams.keys():
+        ds[key] = add_one_smoothing( unigrams[key], n, v )
+    return ds
+
+def smoothing_bigrams(unigrams, bigrams, v):
+    ds = dict ()
+    for key in bigrams.keys():
+        n = unigrams[ key.split()[1] ]
+        ds[key] = add_one_smoothing( bigrams[key], n, v )
+    return ds
+
+def calc_number_of_tokens(counts):
+    n = 0
+    for i in counts.values():
+        n += i
+    return n
+
+def calc_n_grams(text, lower, upper):
+    vectorizer = CountVectorizer(ngram_range=(lower,upper))
+    analyze = vectorizer.build_analyzer()
+    ngrams = analyze(text)
+
+    return dict ( Counter(ngrams) )
+
+def probability(count, n):
+    return count / n
+
+def calc_unigram_probabilities(unigrams, n):
+    pu = dict ()
+    for key in unigrams.keys():
+        pu[key] = probability(unigrams[key], n)
+    return pu
+
+def calc_bigram_probabilities(unigrams, bigrams):
+    pb = dict ()
+    for key in bigrams.keys():
+        n = unigrams[ key.split()[1] ]
+        pb[key] = probability(bigrams[key], n)
+    return pb
 
 def training():
     writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
@@ -93,6 +110,14 @@ def training():
         c_writer.s_unigrams = smoothing_unigrams(c_writer.unigrams, c_writer.n, c_writer.v)
         print 'smoothed bigrams'
         c_writer.s_bigrams = smoothing_bigrams(c_writer.unigrams, c_writer.bigrams, c_writer.v)
+        print 'unigram probabilities'
+        c_writer.unigram_probabilities = calc_unigram_probabilities(c_writer.unigrams, c_writer.n)
+        print 'bigram probabilities'
+        c_writer.bigram_probabilities = calc_bigram_probabilities(c_writer.unigrams, c_writer.bigrams)
+        print 'smoothed unigram probabilities'
+        c_writer.s_unigram_probabilities = calc_unigram_probabilities(c_writer.s_unigrams, c_writer.n)
+        print 'smoothed bigram probabilities'
+        c_writer.s_bigram_probabilities = calc_bigram_probabilities(c_writer.s_unigrams, c_writer.s_bigrams)
 
         print 'writing files'
         output_without_smoothing(path, c_writer)
@@ -104,7 +129,7 @@ def training():
 
     return writers
 
-def testing(testing_length):
+def testing(testing_length, n):
     tests = []
     for t in testing_length:
         path = 'output/test/' + t + '/'
@@ -114,8 +139,8 @@ def testing(testing_length):
 
             print '[' + t + ' test ' + str(i) + ']'
 
-            print  str(n) + '-grams to ' + str(m) +
-            ts.unigrams = calc_n_grams(text, 1, 1)
+            print  str(n) + '-grams'
+            ts.unigrams = calc_n_grams(text, n, n)
 
             print ' '
     return tests
@@ -124,7 +149,7 @@ def main():
     testing_length = ['500Palavras', '1000Palavras']
 
     training()
-    testing(['500Palavras'])
+    testing(['500Palavras'], 1)
 
 
 if __name__ == '__main__':
