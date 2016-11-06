@@ -1,6 +1,5 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from collections import Counter
-import re
 import io
 from nltk.tokenize import TreebankWordTokenizer
 import sys
