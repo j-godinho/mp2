@@ -204,7 +204,7 @@ def main():
     testing_length = ['500Palavras', '1000Palavras']
 
     writers = training()
-    testing(writers, ['500Palavras'], 1)
+    testing(writers, ['500Palavras'], 2)
 
 
 if __name__ == '__main__':
