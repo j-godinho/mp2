@@ -72,7 +72,7 @@ def calc_n_grams(text, lower, upper):
     return dict ( Counter(ngrams) )
 
 def probability(count, n):
-    return count / n
+    return float(count) / n
 
 def calc_unigram_probabilities(unigrams, n):
     pu = dict ()
@@ -129,18 +129,72 @@ def training():
 
     return writers
 
-def testing(testing_length, n):
+def test_writer_without_smoothing(w, ngrams, n):
+    score = 1
+
+    if n == 1:
+        for key in ngrams.keys():
+            if key in w.unigram_probabilities.keys():
+                score *= w.unigram_probabilities[key]
+            else:
+                score *= 0
+                return score
+    elif n == 2:
+        for key in ngrams.keys():
+            if key in w.bigram_probabilities.keys():
+                score *= w.bigram_probabilities[key]
+            else:
+                score *= 0
+                return score
+    else:
+        print 'error'
+
+    return score
+
+def test_writer_with_smoothing(w, ngrams, n):
+    score = 1
+
+    if n == 1:
+        for key in ngrams.keys():
+            if key in w.s_unigram_probabilities.keys():
+                score *= w.s_unigram_probabilities[key]
+            else:
+                score *= ( float(1) / w.n + w.v )
+    elif n == 2:
+        for key in ngrams.keys():
+            if key in w.s_bigram_probabilities.keys():
+                score *= w.s_bigram_probabilities[key]
+            else:
+                word = key.split()[1]
+                if word in w.s_unigrams.keys():
+                    wn = w.s_unigrams[ word ]
+                else:
+                    wn = float(w.n) / (w.n + w.v)
+                score *= ( float(1) / wn + w.v )
+    else:
+        print 'error'
+
+    return score
+
+def testing(writers, testing_length, n):
     tests = []
     for t in testing_length:
         path = 'output/test/' + t + '/'
         for i in range(6):
             ts = test_subject(t, i)
+            ts.scores = dict ()
+            ts.s_scores = dict ()
             text = read_file(path + str(i) + '.txt')
 
             print '[' + t + ' test ' + str(i) + ']'
 
             print  str(n) + '-grams'
-            ts.unigrams = calc_n_grams(text, n, n)
+            ts.ngrams = calc_n_grams(text, n, n)
+
+            for w in writers:
+                ts.scores[w] = test_writer_without_smoothing(w, ts.ngrams, n)
+                ts.s_scores[w] = test_writer_with_smoothing(w, ts.ngrams, n)
+                print  w.name + '\t\t\t' + str(ts.scores[w]) + '\t' + str(ts.s_scores[w])
 
             print ' '
     return tests
@@ -148,8 +202,8 @@ def testing(testing_length, n):
 def main():
     testing_length = ['500Palavras', '1000Palavras']
 
-    training()
-    testing(['500Palavras'], 1)
+    writers = training()
+    testing(writers, ['500Palavras'], 1)
 
 
 if __name__ == '__main__':
