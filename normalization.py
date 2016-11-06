@@ -78,6 +78,7 @@ def normalize_test_file(path, output_path, index, flag):
 	f.close()
 
 
+
 def normalize_tests(flag):
 	print "Normalizing test files"
 	path_input1 = 'corpora/test/500Palavras/*.txt'
@@ -100,6 +101,7 @@ def main():
 	norm_flag = int(sys.argv[1])
 
 	#normalize all training files
+
 	read_train_files(norm_flag)
 	
 	#normalize test files
