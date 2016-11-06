@@ -1,12 +1,11 @@
 from sklearn.feature_extraction.text import CountVectorizer
-from collections import Counter
-import re
-import io
-from nltk import word_tokenize
-import glob
 from nltk.tokenize import TreebankWordTokenizer
+from collections import Counter
+from nltk import word_tokenize
+from decimal import Decimal
+import glob
 import sys
-
+import io
 
 class writer(object):
 
@@ -26,6 +25,28 @@ def read_file(path):
 
     return text
 
+def output_with_smoothing(path, w):
+    f_u = io.open(path + 'smoothed_unigrams.txt', 'w', encoding='utf8')
+    for key in w.s_unigrams.keys():
+        f_u.write( key + '\t' + str(w.s_unigrams[key]) + '\n')
+    f_u.close()
+
+    f_b = io.open(path + 'smoothed_bigrams.txt', 'w', encoding='utf8')
+    for key in w.s_bigrams.keys():
+        f_b.write( key + '\t' + str(w.s_bigrams[key]) + '\n')
+    f_b.close()
+
+def output_without_smoothing(path, w):
+    f_u = io.open(path + 'unigrams.txt', 'w', encoding='utf8')
+    for key in w.unigrams.keys():
+        f_u.write( key + '\t' + str(w.unigrams[key]) + '\n')
+    f_u.close()
+
+    f_b = io.open(path + 'bigrams.txt', 'w', encoding='utf8')
+    for key in w.bigrams.keys():
+        f_b.write( key + '\t' + str(w.bigrams[key]) + '\n')
+    f_b.close()
+
 def add_one_smoothing(count, n, v):
     return float(count + 1) * ( float(n) / (n + v) )
 
@@ -40,6 +61,7 @@ def smoothing_bigrams(unigrams, bigrams, v):
     for key in bigrams.keys():
         n = unigrams[ key.split()[1] ]
         ds[key] = add_one_smoothing( bigrams[key], n, v )
+    return ds
 
 def calc_number_of_tokens(counts):
     n = 0
@@ -50,13 +72,15 @@ def calc_number_of_tokens(counts):
 def calc_n_grams(text, lower, upper, flag):
     if(flag == 0):
         vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False, tokenizer=TreebankWordTokenizer().tokenize)
-    else:    
+    else:
         vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False)
     analyze = vectorizer.build_analyzer()
     ngrams = analyze(text)
 
     return dict ( Counter(ngrams) )
 
+def probability(count, n):
+    return float(count) / n
 
 def average_words_sentence(path):
     #.!?;
@@ -84,7 +108,6 @@ def analyze_writers():
     return writers_dict
 
 def compare_values(writers_dict, value):
-    
     min_value = 999999
     writer_chosen = ""
     for key in writers_dict:
@@ -93,8 +116,6 @@ def compare_values(writers_dict, value):
             writer_chosen = key
             min_value=distance
     return writer_chosen
-    
-
 
 def analyze_avg_words_sentence():
     writers_dict = analyze_writers()
@@ -103,37 +124,32 @@ def analyze_avg_words_sentence():
     path500 = 'output/test/500Palavras/'
 
     path1000 = 'output/test/1000Palavras/'
-    
+
     files = glob.glob(path500+"*.txt")
     files = files + glob.glob(path1000+"*.txt")
 
     for file in files:
         average_words = average_words_sentence(file)
         print file + " " + compare_values(writers_dict, average_words)
-    
-
 
 def output_with_smoothing(path, writer):
     f_u = io.open(path + 'smoothed_unigrams.txt', 'w', encoding='utf8')
-    for key in w.s_unigrams.keys():
-        f_u.write( key + '\t' + str(w.s_unigrams[key]) + '\n')
+    for key in writer.s_unigrams.keys():
+        f_u.write( key + '\t' + str(writer.s_unigrams[key]) + '\n')
     f_u.close()
 
-    f_b = io.open(path + 'smoothed_bigrams.txt', 'w', encoding='utf8')
-    for key in w.s_bigrams.keys():
-        f_b.write( key + '\t' + str(w.s_bigrams[key]) + '\n')
-    f_b.close()
+def calc_unigram_probabilities(unigrams, n):
+    pu = dict ()
+    for key in unigrams.keys():
+        pu[key] = probability(unigrams[key], n)
+    return pu
 
-def output_without_smoothing(path, w):
-    f_u = io.open(path + 'unigrams.txt', 'w', encoding='utf8')
-    for key in w.unigrams.keys():
-        f_u.write( key + '\t' + str(w.unigrams[key]) + '\n')
-    f_u.close()
-
-    f_b = io.open(path + 'bigrams.txt', 'w', encoding='utf8')
-    for key in w.bigrams.keys():
-        f_b.write( key + '\t' + str(w.bigrams[key]) + '\n')
-    f_b.close()
+def calc_bigram_probabilities(unigrams, bigrams):
+    pb = dict ()
+    for key in bigrams.keys():
+        n = unigrams[ key.split()[1] ]
+        pb[key] = probability(bigrams[key], n)
+    return pb
 
 def training(flag):
     writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
@@ -158,6 +174,14 @@ def training(flag):
         c_writer.s_unigrams = smoothing_unigrams(c_writer.unigrams, c_writer.n, c_writer.v)
         print 'smoothed bigrams'
         c_writer.s_bigrams = smoothing_bigrams(c_writer.unigrams, c_writer.bigrams, c_writer.v)
+        print 'unigram probabilities'
+        c_writer.unigram_probabilities = calc_unigram_probabilities(c_writer.unigrams, c_writer.n)
+        print 'bigram probabilities'
+        c_writer.bigram_probabilities = calc_bigram_probabilities(c_writer.unigrams, c_writer.bigrams)
+        print 'smoothed unigram probabilities'
+        c_writer.s_unigram_probabilities = calc_unigram_probabilities(c_writer.s_unigrams, c_writer.n)
+        print 'smoothed bigram probabilities'
+        c_writer.s_bigram_probabilities = calc_bigram_probabilities(c_writer.s_unigrams, c_writer.s_bigrams)
 
         print 'writing files'
         output_without_smoothing(path, c_writer)
@@ -169,40 +193,84 @@ def training(flag):
 
     return writers
 
-def testing(testing_length, flag):
+def test_writer_without_smoothing(w, ngrams, n):
+    score = Decimal(1)
+
+    if n == 1:
+        for key in ngrams.keys():
+            if key in w.unigram_probabilities.keys():
+                score *= Decimal(w.unigram_probabilities[key])
+            else:
+                score *= 0
+                return score
+    elif n == 2:
+        for key in ngrams.keys():
+            if key in w.bigram_probabilities.keys():
+                score *= Decimal(w.bigram_probabilities[key])
+            else:
+                score *= 0
+                return score
+    else:
+        print 'error'
+
+    return score
+
+def test_writer_with_smoothing(w, ngrams, n):
+    score = Decimal(1)
+
+    if n == 1:
+        for key in ngrams.keys():
+            if key in w.s_unigram_probabilities.keys():
+                score *= Decimal(w.s_unigram_probabilities[key])
+            else:
+                score *= Decimal( float(1) / (w.n + w.v) )
+    elif n == 2:
+        for key in ngrams.keys():
+            if key in w.s_bigram_probabilities.keys():
+                score *= Decimal(w.s_bigram_probabilities[key])
+            else:
+                word = key.split()[1]
+                if word in w.s_unigrams.keys():
+                    wn = w.s_unigrams[ word ]
+                else:
+                    wn = float(w.n) / (w.n + w.v)
+                score *= Decimal( float(1) / (wn + w.v) )
+    else:
+        print 'error'
+
+    return score
+
+def testing(writers, testing_length, n, flag):
     tests = []
     for t in testing_length:
         path = 'output/test/' + t + '/'
         for i in range(6):
             ts = test_subject(t, i)
+            ts.scores = dict ()
+            ts.s_scores = dict ()
             text = read_file(path + str(i) + '.txt')
 
             print '[' + t + ' test ' + str(i) + ']'
 
-            print  str(n) + '-grams to ' + str(m) +
-            ts.unigrams = calc_n_grams(text, 1, 1, flag)
+            print  str(n) + '-grams'
+            ts.ngrams = calc_n_grams(text, n, n, flag)
+
+            for w in writers:
+                ts.scores[w] = test_writer_without_smoothing(w, ts.ngrams, n)
+                ts.s_scores[w] = test_writer_with_smoothing(w, ts.ngrams, n)
+                print  w.name + '\t\t\t' + str(ts.scores[w]) + '\t' + str(ts.s_scores[w])
 
             print ' '
     return tests
 
 def main():
     norm_flag = int(sys.argv[1])
-    analyze_avg_words_sentence()
-    # file = io.open('output/LuisaMarquesSilva/LuisaMarquesSilva.txt', 'r')
-    # text = file.read()
-    # counts = calc_n_grams(text, 1, 2, norm_flag)
-    # n_tokens = calc_number_of_tokens(counts)
-    # counts_smoothed = add_one_smoothing(counts, n_tokens)
-    # for key in counts.keys():
-    #     print '{}\t\t\t{}\t\t\t{}'.format(key.encode('utf-8'), counts[key], counts_smoothed[key])
+    # analyze_avg_words_sentence()
 
     testing_length = ['500Palavras', '1000Palavras']
 
-    training(norm_flag)
-    testing(['500Palavras'])
-
-
+    writers = training(norm_flag)
+    testing(writers, ['500Palavras'], 1, norm_flag)
 
 if __name__ == '__main__':
     main()
-
