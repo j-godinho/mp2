@@ -179,7 +179,7 @@ def testing(testing_length, flag):
 
             print '[' + t + ' test ' + str(i) + ']'
 
-            print  str(n) + '-grams to ' + str(m) +
+            print  str(n) + '-grams to ' + str(m) 
             ts.unigrams = calc_n_grams(text, 1, 1, flag)
 
             print ' '
@@ -196,10 +196,10 @@ def main():
     # for key in counts.keys():
     #     print '{}\t\t\t{}\t\t\t{}'.format(key.encode('utf-8'), counts[key], counts_smoothed[key])
 
-    testing_length = ['500Palavras', '1000Palavras']
+    #testing_length = ['500Palavras', '1000Palavras']
 
-    training(norm_flag)
-    testing(['500Palavras'])
+    #training(norm_flag)
+    #testing(['500Palavras'])
 
 
 

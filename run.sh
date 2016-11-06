@@ -20,7 +20,7 @@ python dependencies.py
 #flag 1 - lower capital letters without punctuation
 #flag 2 - remove punctuation
 #flag 3 - without punctuation and portuguese stop words were removed
-norm_flag="3"
+norm_flag="0"
 python normalization.py $norm_flag
 
 python main.py $norm_flag
