@@ -22,7 +22,7 @@ python dependencies.py
 # flag 2 - remove punctuation
 # flag 3 - without punctuation and portuguese stop
 echo 'Normalizing'
-norm_flag="2"
+norm_flag="0"
 python normalization.py $norm_flag
 
 echo 'Analyzing...'

@@ -267,10 +267,11 @@ def main():
     norm_flag = int(sys.argv[1])
     # analyze_avg_words_sentence()
 
-    testing_length = ['500Palavras', '1000Palavras']
+    #testing_length = ['500Palavras', '1000Palavras']
 
     writers = training(norm_flag)
     testing(writers, ['500Palavras'], 1, norm_flag)
+
 
 if __name__ == '__main__':
     main()
