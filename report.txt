@@ -45,3 +45,11 @@ Comentários:
 	
 	1ª-Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que podemos confirmar.
 	No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.
+
+
+#0 - José Rodrigues dos Santos
+#1 - José Saramago
+#2 - Eça de Queirós
+#3 - Almada Negreiros
+#4 - Camilo Castelo Branco
+#5 - 
