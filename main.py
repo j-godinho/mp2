@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from collections import Counter
+from decimal import Decimal
 import io
 
 class writer(object):
@@ -130,19 +131,19 @@ def training():
     return writers
 
 def test_writer_without_smoothing(w, ngrams, n):
-    score = 1
+    score = Decimal(1)
 
     if n == 1:
         for key in ngrams.keys():
             if key in w.unigram_probabilities.keys():
-                score *= w.unigram_probabilities[key]
+                score *= Decimal(w.unigram_probabilities[key])
             else:
                 score *= 0
                 return score
     elif n == 2:
         for key in ngrams.keys():
             if key in w.bigram_probabilities.keys():
-                score *= w.bigram_probabilities[key]
+                score *= Decimal(w.bigram_probabilities[key])
             else:
                 score *= 0
                 return score
@@ -152,25 +153,25 @@ def test_writer_without_smoothing(w, ngrams, n):
     return score
 
 def test_writer_with_smoothing(w, ngrams, n):
-    score = 1
+    score = Decimal(1)
 
     if n == 1:
         for key in ngrams.keys():
             if key in w.s_unigram_probabilities.keys():
-                score *= w.s_unigram_probabilities[key]
+                score *= Decimal(w.s_unigram_probabilities[key])
             else:
-                score *= ( float(1) / w.n + w.v )
+                score *= Decimal( float(1) / (w.n + w.v) )
     elif n == 2:
         for key in ngrams.keys():
             if key in w.s_bigram_probabilities.keys():
-                score *= w.s_bigram_probabilities[key]
+                score *= Decimal(w.s_bigram_probabilities[key])
             else:
                 word = key.split()[1]
                 if word in w.s_unigrams.keys():
                     wn = w.s_unigrams[ word ]
                 else:
                     wn = float(w.n) / (w.n + w.v)
-                score *= ( float(1) / wn + w.v )
+                score *= Decimal( float(1) / (wn + w.v) )
     else:
         print 'error'
 
