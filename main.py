@@ -270,7 +270,7 @@ def main():
     testing_length = ['500Palavras', '1000Palavras']
 
     writers = training(norm_flag)
-    testing(writers, ['500Palavras'], 1, norm_flag)
+    testing(writers, testing_length, 1, norm_flag)
 
 if __name__ == '__main__':
     main()
