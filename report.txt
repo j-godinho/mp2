@@ -1,0 +1,47 @@
+MP2
+
+Grupo 20:
+Bernardo Casaleiro 	nº87827
+João Godinho 		nº87830
+
+
+
+Bibliotecas externas usadas:
+	
+	-nltk (usado para retirar os tokens dos ficheiros e usado para obter as stopwords da língua Portuguesa e sinais de pontuação)
+	
+	-glob (usado para ler todos os ficheiros de uma directoria)
+	
+	-sklearn (usado para calcular n-grams e TF-IDF)
+
+Opções Tomadas:
+	-A linguagem usada foi Python, pela sua simplicidade e grande quantidade de bibliotecas referentes a este assunto.
+
+	-Todo o programa pode ser corrido através do script run.sh.
+		#Este script é responsável por criar já as directorias para onde os
+		ficheiros de treino e de teste irão ser escritos após serem normalizados.
+
+		#O script contém uma flag de normalização, que pode ser escolhida para fazer 4 tipos de normalização:
+			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alinea a)
+
+			Flag = 1	-	Texto é passado para letra "pequena"
+			
+			Flag = 2	-	Remoção da pontuação e case-sensitive
+			
+			Flag = 3	-	Stop-Words Portuguesas removidas
+
+	-A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz automaticamente a remoção de tokens muito especificos, como as reticências e nao remove hifens dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
+
+	-Para retirar os n-grams foi usada a biblioteca sklearn. Para uma das experiências não quisemos que a pontuação fosse ignorada portanto tivemos que utilizar um tokenizer que não é o default da biblioteca. Por default esta usa os sinais de pontuação como separadores.
+
+Experiências:
+
+	1ª-Uma das experiências que fizémos foi calcular a média de palavras por frase de cada escritor.
+	Para calcularmos o número de frases contámos simplesmente o número pontos de exclamação e interrogação, pontos finais, reticências e ponto e vírgula [!?.(...);]. O que nos pareceu uma boa aproximação para contar as frases.
+	Para cada escritor foi calculado a média de palavras por frase e para cada caso de teste foi feito o mesmo procedimento, comparando-se depois a minima diferença entre cada escritor e aquele caso de teste.
+
+
+Comentários:
+	
+	1ª-Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que podemos confirmar.
+	No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.

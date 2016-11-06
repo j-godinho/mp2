@@ -1,6 +1,10 @@
 from sklearn.feature_extraction.text import CountVectorizer
+from nltk.tokenize import TreebankWordTokenizer
 from collections import Counter
+from nltk import word_tokenize
 from decimal import Decimal
+import glob
+import sys
 import io
 
 class writer(object):
@@ -65,8 +69,11 @@ def calc_number_of_tokens(counts):
         n += i
     return n
 
-def calc_n_grams(text, lower, upper):
-    vectorizer = CountVectorizer(ngram_range=(lower,upper))
+def calc_n_grams(text, lower, upper, flag):
+    if(flag == 0):
+        vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False, tokenizer=TreebankWordTokenizer().tokenize)
+    else:
+        vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False)
     analyze = vectorizer.build_analyzer()
     ngrams = analyze(text)
 
@@ -74,6 +81,62 @@ def calc_n_grams(text, lower, upper):
 
 def probability(count, n):
     return float(count) / n
+
+def average_words_sentence(path):
+    #.!?;
+    #...
+
+    f = io.open(path, 'r', encoding='utf8')
+    file_data = f.read()
+    tokens = word_tokenize(file_data)
+
+    end_symbols = ['!', '?', '...', ';', '.']
+    sentences = 0
+    for token in tokens:
+        if(token in end_symbols):
+            sentences += 1
+
+    return float(len(tokens)-sentences)/sentences
+
+def analyze_writers():
+    writers = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
+    writers_dict = dict()
+    for i in range(len(writers)):
+        print "Analyzing average words per sentence of:", writers[i]
+        path = 'output/' + writers[i]+'/' + writers[i] + '.txt'
+        writers_dict[writers[i]] = average_words_sentence(path)
+    return writers_dict
+
+def compare_values(writers_dict, value):
+    min_value = 999999
+    writer_chosen = ""
+    for key in writers_dict:
+        distance = abs(writers_dict[key]-value)
+        if(distance<min_value):
+            writer_chosen = key
+            min_value=distance
+    return writer_chosen
+
+def analyze_avg_words_sentence():
+    writers_dict = analyze_writers()
+
+    #analyze first path
+    path500 = 'output/test/500Palavras/'
+
+    path1000 = 'output/test/1000Palavras/'
+
+    files = glob.glob(path500+"*.txt")
+    files = files + glob.glob(path1000+"*.txt")
+
+    for file in files:
+        average_words = average_words_sentence(file)
+        print file + " " + compare_values(writers_dict, average_words)
+
+def output_with_smoothing(path, writer):
+    f_u = io.open(path + 'smoothed_unigrams.txt', 'w', encoding='utf8')
+    for key in writer.s_unigrams.keys():
+        f_u.write( key + '\t' + str(writer.s_unigrams[key]) + '\n')
+    f_u.close()
 
 def calc_unigram_probabilities(unigrams, n):
     pu = dict ()
@@ -88,7 +151,7 @@ def calc_bigram_probabilities(unigrams, bigrams):
         pb[key] = probability(bigrams[key], n)
     return pb
 
-def training():
+def training(flag):
     writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
     writers = []
 
@@ -100,9 +163,9 @@ def training():
         print '[' + w + ']'
 
         print 'unigrams'
-        c_writer.unigrams = calc_n_grams(text, 1, 1)
+        c_writer.unigrams = calc_n_grams(text, 1, 1, flag)
         print 'bigrams'
-        c_writer.bigrams = calc_n_grams(text, 2, 2)
+        c_writer.bigrams = calc_n_grams(text, 2, 2, flag)
         print 'N'
         c_writer.n = calc_number_of_tokens(c_writer.unigrams)
         print 'V'
@@ -177,7 +240,7 @@ def test_writer_with_smoothing(w, ngrams, n):
 
     return score
 
-def testing(writers, testing_length, n):
+def testing(writers, testing_length, n, flag):
     tests = []
     for t in testing_length:
         path = 'output/test/' + t + '/'
@@ -190,7 +253,7 @@ def testing(writers, testing_length, n):
             print '[' + t + ' test ' + str(i) + ']'
 
             print  str(n) + '-grams'
-            ts.ngrams = calc_n_grams(text, n, n)
+            ts.ngrams = calc_n_grams(text, n, n, flag)
 
             for w in writers:
                 ts.scores[w] = test_writer_without_smoothing(w, ts.ngrams, n)
@@ -201,11 +264,13 @@ def testing(writers, testing_length, n):
     return tests
 
 def main():
+    norm_flag = int(sys.argv[1])
+    # analyze_avg_words_sentence()
+
     testing_length = ['500Palavras', '1000Palavras']
 
-    writers = training()
-    testing(writers, ['500Palavras'], 2)
-
+    writers = training(norm_flag)
+    testing(writers, ['500Palavras'], 1, norm_flag)
 
 if __name__ == '__main__':
     main()
