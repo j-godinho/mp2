@@ -9,16 +9,15 @@ def read_writer_file(path):
 	f = io.open(path, 'r', encoding='utf8')
 	read_data = f.read()
 	f.close()
-	
-	return read_data	
+
+	return read_data
 
 
 def read_writer_files(writer, flag):
 	path = 'corpora/training/' + writer + '/*.txt'
 	files = glob.glob(path)
-	
 	read_data = ""
-	
+
 	for i in range(len(files)):
 		read_data += read_writer_file(files[i])
 
@@ -55,16 +54,13 @@ def normalize_train_file(data, writer, flag):
 	f.close()
 
 
+
 def normalize_test_file(path, output_path, index, flag):
-
 	data = read_writer_file(path)
-
 	tokens = word_tokenize(data)
-
 	output_path = output_path+str(index)+".txt"
 
-	f=io.open(output_path, 'w', encoding='utf8')
-
+	f = io.open(output_path, 'w', encoding='utf8')
 	if(flag == 3):
 		stopwords = nltk.corpus.stopwords.words('portuguese')
 
@@ -79,7 +75,6 @@ def normalize_test_file(path, output_path, index, flag):
 		if(flag==3):
 			if(token not in stopwords):
 				f.write(token + " ")
-
 	f.close()
 
 

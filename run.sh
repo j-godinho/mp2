@@ -1,5 +1,7 @@
 echo 'creating directories'
+
 #output training files
+mkdir -p output
 mkdir -p output/AlmadaNegreiros
 mkdir -p output/LuisaMarquesSilva
 mkdir -p output/JoseSaramago
@@ -22,3 +24,4 @@ norm_flag="3"
 python normalization.py $norm_flag
 
 python main.py $norm_flag
+
