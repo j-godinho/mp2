@@ -1,6 +1,9 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from collections import Counter
 import io
+from nltk.tokenize import TreebankWordTokenizer
+import sys
+
 
 class writer(object):
 
@@ -41,8 +44,11 @@ def calc_number_of_tokens(counts):
         n += i
     return n
 
-def calc_n_grams(text, lower, upper):
-    vectorizer = CountVectorizer(ngram_range=(lower,upper))
+def calc_n_grams(text, lower, upper, flag):
+    if(flag == 0):
+        vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False, tokenizer=TreebankWordTokenizer().tokenize)
+    else:    
+        vectorizer = CountVectorizer(ngram_range=(lower,upper), lowercase=False)
     analyze = vectorizer.build_analyzer()
     ngrams = analyze(text)
 
@@ -70,7 +76,7 @@ def output_without_smoothing(path, w):
         f_b.write( key + '\t' + str(w.bigrams[key]) + '\n')
     f_b.close()
 
-def training():
+def training(flag):
     writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
     writers = []
 
@@ -82,9 +88,9 @@ def training():
         print '[' + w + ']'
 
         print 'unigrams'
-        c_writer.unigrams = calc_n_grams(text, 1, 1)
+        c_writer.unigrams = calc_n_grams(text, 1, 1, flag)
         print 'bigrams'
-        c_writer.bigrams = calc_n_grams(text, 2, 2)
+        c_writer.bigrams = calc_n_grams(text, 2, 2, flag)
         print 'N'
         c_writer.n = calc_number_of_tokens(c_writer.unigrams)
         print 'V'
@@ -104,7 +110,7 @@ def training():
 
     return writers
 
-def testing(testing_length):
+def testing(testing_length, flag):
     tests = []
     for t in testing_length:
         path = 'output/test/' + t + '/'
@@ -115,16 +121,27 @@ def testing(testing_length):
             print '[' + t + ' test ' + str(i) + ']'
 
             print  str(n) + '-grams to ' + str(m) +
-            ts.unigrams = calc_n_grams(text, 1, 1)
+            ts.unigrams = calc_n_grams(text, 1, 1, flag)
 
             print ' '
     return tests
 
 def main():
+    norm_flag = int(sys.argv[1])
+
+    # file = io.open('output/LuisaMarquesSilva/LuisaMarquesSilva.txt', 'r')
+    # text = file.read()
+    # counts = calc_n_grams(text, 1, 2, norm_flag)
+    # n_tokens = calc_number_of_tokens(counts)
+    # counts_smoothed = add_one_smoothing(counts, n_tokens)
+    # for key in counts.keys():
+    #     print '{}\t\t\t{}\t\t\t{}'.format(key.encode('utf-8'), counts[key], counts_smoothed[key])
+
     testing_length = ['500Palavras', '1000Palavras']
 
-    training()
+    training(norm_flag)
     testing(['500Palavras'])
+
 
 
 if __name__ == '__main__':
