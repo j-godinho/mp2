@@ -36,7 +36,7 @@ Opções Tomadas:
 			- contagem de bigramas com alisamento usando add-one
 			* Volto a salientar que nestes ficheiros se encontram as contagens com alisamento e não as probabilidades,
 			para o calculo da sua probabilidade basta recorrer à formula P(wi) = ci*/N para os unigramas e
-			P(wi|wi-1) = ci* / (#wi-1).
+			P(wi|wi-1) = ci* / (#wi-1) para os bigramas.
 
 	- Para retirar os n-grams foi usada a classe CountVerifier da biblioteca scikit-learn.
 		Para uma das experiências não quisemos que a pontuação fosse ignorada portanto tivemos que utilizar um
