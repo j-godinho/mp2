@@ -153,7 +153,7 @@ def calc_bigram_probabilities(unigrams, bigrams):
         pb[key] = probability(bigrams[key], n)
     return pb
 
-def training(flag):
+def training(flag, exp_flag):
     writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
     writers = []
 
@@ -164,30 +164,29 @@ def training(flag):
 
         print '[' + w + ']'
 
-        print 'unigrams'
         c_writer.unigrams = calc_n_grams(text, 1, 1, flag)
-        print 'bigrams'
+        
         c_writer.bigrams = calc_n_grams(text, 2, 2, flag)
-        print 'N'
+        
         c_writer.n = calc_number_of_tokens(c_writer.unigrams)
-        print 'V'
+        
         c_writer.v = len(c_writer.unigrams.keys())
-        print 'smoothed unigrams'
+        
         c_writer.s_unigrams = smoothing_unigrams(c_writer.unigrams, c_writer.n, c_writer.v)
-        print 'smoothed bigrams'
+        
         c_writer.s_bigrams = smoothing_bigrams(c_writer.unigrams, c_writer.bigrams, c_writer.v)
-        print 'unigram probabilities'
+        
         c_writer.unigram_probabilities = calc_unigram_probabilities(c_writer.unigrams, c_writer.n)
-        print 'bigram probabilities'
+        
         c_writer.bigram_probabilities = calc_bigram_probabilities(c_writer.unigrams, c_writer.bigrams)
-        print 'smoothed unigram probabilities'
+        
         c_writer.s_unigram_probabilities = calc_unigram_probabilities(c_writer.s_unigrams, c_writer.n)
-        print 'smoothed bigram probabilities'
+        
         c_writer.s_bigram_probabilities = calc_bigram_probabilities(c_writer.s_unigrams, c_writer.s_bigrams)
 
-        print 'writing files'
-        output_without_smoothing(path, c_writer)
-        output_with_smoothing(path, c_writer)
+        if(exp_flag == 0):
+            output_without_smoothing(path, c_writer)
+            output_with_smoothing(path, c_writer)
 
         writers.append( c_writer )
 
@@ -353,9 +352,23 @@ def calc_tf_idf(lower, upper, top):
 
 def main():
     norm_flag = int(sys.argv[1])
+    exp_flag = int(sys.argv[2])
 
-    calc_tf_idf(1, 2, 0.1)
+    if(exp_flag == 0):
+        training(norm_flag, exp_flag)
 
+    if(exp_flag == 1 or exp_flag==2):
+        testing_length = ['500Palavras', '1000Palavras']
+        writers = training(norm_flag, exp_flag)
+        testing(writers, testing_length, 1, norm_flag)
+        testing(writers, testing_length, 2, norm_flag)
+
+
+    elif(exp_flag == 3):
+        calc_tf_idf(1, 2, 0.1)
+
+    elif(exp_flag == 4):
+        analyze_avg_words_sentence()
 
 
 if __name__ == '__main__':

@@ -99,7 +99,6 @@ def normalize_tests(flag):
 def main():
 	
 	norm_flag = int(sys.argv[1])
-
 	#normalize all training files
 
 	read_train_files(norm_flag)

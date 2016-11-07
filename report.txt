@@ -18,7 +18,10 @@ Opções Tomadas:
 	-Todo o programa pode ser corrido através do script run.sh.
 		# Este script é responsável por criar já as diretorias onde os ficheiros de treino e de teste irão ser escritos após serem normalizados, assim como os ficheiros de unigramas e bigramas referentes a cada autor, com e sem alisamento.
 
-		# O script contém uma flag de normalização, que pode ser escolhida para fazer 4 tipos de normalização:
+		# O script contém duas flags, uma de normalização, que pode ser escolhida para fazer 4 tipos de normalização e outra chamada de exp_flag usada para escolher qual exercicio pretendemos correr:
+			
+			Norm_flag:
+
 			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alinea a) do enunciado)
 
 			Flag = 1	-	Texto é passado para letra minúscula
@@ -59,15 +62,15 @@ Experiências:
 		ou bigrama ocorrentes no ficheiro de teste e calculadas usando ficheiros de treino. Para isto foram usadas
 		duas versões, uma com alisamento add-one e outra sem alisamento.
 
-	2ª: Uma das experiências que fizemos foi calcular a média de palavras por frase de cada escritor.
+	2ª: Stop Words
+
+	3ª: Tf-Idf
+
+	4ª: Uma das experiências que fizemos foi calcular a média de palavras por frase de cada escritor.
 		Para calcularmos o número de frases contámos simplesmente o número pontos de exclamação e interrogação,
 		pontos finais, reticências e ponto e vírgula [!?.(...);]. O que nos pareceu uma boa aproximação para contar as frases.
 		Para cada escritor foi calculado a média de palavras por frase e para cada caso de teste foi feito o
 		mesmo procedimento, comparando-se depois a mínima diferença entre cada escritor e aquele caso de teste.
-
-	3ª: Stop Words
-
-	4ª: Tf-Idf
 
 
 Observações:
@@ -80,14 +83,15 @@ Observações:
 		
 
 	Em relação às experiências:
+
 	1ª: A nossa espetativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos afirmar que é bastante incompleta. As probabilidades são muito próximas exceto em casos muito específicos que atribuímos possivelmente a vocabulário e estilos de escrita que se distingue dos restantes autores significativamente.
 
-	2ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago	saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que podemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.
+	2ª:
 
 	3ª:
 
-	4ª:
+	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago	saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que podemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.
 
 
 Resultados:
-
+	
