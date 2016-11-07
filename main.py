@@ -1,8 +1,10 @@
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.tokenize import TreebankWordTokenizer
 from collections import Counter
 from nltk import word_tokenize
 from decimal import Decimal
+from math import log
 import glob
 import sys
 import io
@@ -263,14 +265,97 @@ def testing(writers, testing_length, n, flag):
             print ' '
     return tests
 
+def calc_tf(path, lower, upper):
+    f = read_file(path)
+
+    vectorizer = CountVectorizer(ngram_range=(lower, upper))
+    analyze = vectorizer.build_analyzer()
+    ngrams = analyze(f)
+
+    return dict ( Counter(ngrams) )
+
+def calc_idf(lower, upper):
+    writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
+    of = []
+
+    for w in writer_name:
+        path = 'output/' + w + '/'
+        of.append( read_file(path + w + '.txt') )
+
+    vectorizer = TfidfVectorizer(ngram_range=(lower,upper), min_df=1)
+    X = vectorizer.fit_transform(of)
+    idf = vectorizer.idf_
+    return dict ( zip ( vectorizer.get_feature_names(), idf ) )
+
+def calc_precision(rw, sw):
+    n = 0
+    for word in sw:
+        if word in rw:
+            n += 1
+    return float(n) / len(sw)
+
+def calc_recall(rw, sw):
+    n = 0
+    for word in sw:
+        if word in rw:
+            n += 1
+    return float(n)/len(rw)
+
+def calc_f1(precision, recall):
+    beta = 0.5
+    if precision == 0 or recall == 0:
+        return 0
+    else:
+        return ( (pow(beta, 2) + 1) * precision * recall ) / ((pow(beta, 2) * precision) + recall)
+
+def calc_tf_idf(lower, upper, top):
+    writer_name = ["AlmadaNegreiros", "EcaDeQueiros", "JoseRodriguesSantos", "CamiloCasteloBranco", "JoseSaramago", "LuisaMarquesSilva"]
+    testing_length = ["500Palavras", "1000Palavras"]
+    writers = []
+    print 'calculating idf'
+    idf = calc_idf(lower, upper)
+
+    for w in writer_name:
+        print 'calculating tf for ' + w
+        tf = calc_tf('output/' + w + '/' + w + '.txt', lower, upper)
+        c_writer = writer(w)
+        c_writer.tf_idf = dict ()
+        print 'calculating tf-idf for ' + w
+        for ngram in tf.keys():
+            if ngram in idf.keys():
+                c_writer.tf_idf[ngram] = tf[ngram] * idf[ngram]
+            else:
+                c_writer.tf_idf[ngram] = tf[ngram] * log(64/1) # 64 ficheiros de treino
+        writers.append( c_writer )
+
+    for t in testing_length:
+        path = 'output/test/' + t + '/'
+        for i in range(6):
+            print 'calculating tf for ' + t + ' ' + str(i)
+            tf = calc_tf( path + str(i) + '.txt', lower, upper)
+            tf_idf = dict ()
+            print 'calculating tf-idf for ' + t + ' ' + str(i)
+            for ngram in tf.keys():
+                if ngram in idf.keys():
+                    tf_idf[ngram] = tf[ngram] * idf[ngram]
+                else:
+                    tf_idf[ngram] = tf[ngram] * log(64/1) # 64 ficheiros de treino
+
+            print 'calculating top measures for ' + t + ' ' + str(i)
+            for w in writers.keys():
+                top_ranked_test = sorted(tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(tf_idf.keys()))]
+                top_ranked_writer = sorted(writers[w].tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(writers[w].tf_idf.keys()))]
+                prec = calc_precision(top_ranked_writer, top_ranked_test)
+                rec = calc_recall(top_ranked_writer, top_ranked_test)
+                f1 = calc_f1(prec, rec)
+                print '{}\t{}\t{}\t{}'.format(w, prec, rec, f1)
+            print ' '
+
 def main():
     norm_flag = int(sys.argv[1])
-    # analyze_avg_words_sentence()
 
-    #testing_length = ['500Palavras', '1000Palavras']
+    calc_tf_idf(1, 2, 0.1)
 
-    writers = training(norm_flag)
-    testing(writers, testing_length, 1, norm_flag)
 
 
 if __name__ == '__main__':
