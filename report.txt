@@ -46,7 +46,7 @@ Opções Tomadas:
 			P(wi|wi-1) = ci* / (#wi-1) para os bigramas.
 
 	- Para retirar os n-grams foi usada a classe CountVerifier da biblioteca scikit-learn.
-		Para a alinea a) não quisemos que a pontuação fosse ignorada tivemos então que utilizar um
+		Para uma das experiências não quisemos que a pontuação fosse ignorada tivemos então que utilizar um
 		tokenizer que não é o default da biblioteca. Por default esta usa os sinais de pontuação como separadores.
 
 	- A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz
@@ -104,9 +104,9 @@ Observações:
 		do seu tamanho. Porque para os mesmos casos de teste, foram obtidos resultados muito semelhantes, verificando-se que não houve perda de informação
 		vital do texto.
 
-	3ª: Esta experiencia é bastante interessante para o caso do escritor escrever sobre os mesmos temas tanto nos ficheiros de treino como no ficheiro
-		de teste, no entanto não foi o que se verificou pois os temas eram variados. Podemos assim concluir que não é a melhor abordagem para um problema
-		deste género.
+	3ª: Esta experiencia é bastante interessante para o caso do mesmo escritor escrever sobre os mesmos temas tanto nos ficheiros de treino como no ficheiro
+		de teste. Seria assim esperado que os resultados fossem maus, pois os temas são variados, no entanto os resultados mostram que cada autor usa palavras
+		caracteristicas, permitindo assim uma distinção entre os autores e tornando os resultados melhores do que o esperado.
 
 	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado
 	pequenos para ter uma boa precisão. No entanto para escritores como José Saramago saberíamos que facilmente este escritor iria obter uma grande
