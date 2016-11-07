@@ -369,11 +369,8 @@ def main():
         writers = training(norm_flag, exp_flag)
         testing(writers, testing_length, 1, norm_flag)
         testing(writers, testing_length, 2, norm_flag)
-
-
     elif(exp_flag == 3):
         calc_tf_idf(1, 2, 0.1)
-
     elif(exp_flag == 4):
         analyze_avg_words_sentence()
 
