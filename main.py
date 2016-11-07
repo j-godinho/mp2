@@ -38,6 +38,7 @@ def output_with_smoothing(path, w):
         f_b.write( key + '\t' + str(w.s_bigrams[key]) + '\n')
     f_b.close()
 
+
 def output_without_smoothing(path, w):
     f_u = io.open(path + 'unigrams.txt', 'w', encoding='utf8')
     for key in w.unigrams.keys():
@@ -110,7 +111,7 @@ def analyze_writers():
     return writers_dict
 
 def compare_values(writers_dict, value):
-    min_value = 999999
+    min_value = sys.maxint
     writer_chosen = ""
     for key in writers_dict:
         distance = abs(writers_dict[key]-value)
@@ -135,11 +136,7 @@ def analyze_avg_words_sentence():
         returned = compare_values(writers_dict, average_words)
         print file + " " + returned[0] + " " + str(returned[1])
 
-def output_with_smoothing(path, writer):
-    f_u = io.open(path + 'smoothed_unigrams.txt', 'w', encoding='utf8')
-    for key in writer.s_unigrams.keys():
-        f_u.write( key + '\t' + str(writer.s_unigrams[key]) + '\n')
-    f_u.close()
+
 
 def calc_unigram_probabilities(unigrams, n):
     pu = dict ()
