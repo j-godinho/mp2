@@ -101,7 +101,10 @@ Observações:
 		As probabilidades são muito próximas exceto em casos muito específicos que atribuímos possivelmente a vocabulário e estilos de escrita que se
 		distingue dos restantes autores significativamente. Podemos dizer que a dimensão do corpus ainda era muito reduzida para o uso de bigramas.
 
-	2ª:
+	2ª: Como pudemos observar pelos resultados obtidos, a remoção das stop words não trouxe grande diferença à experiência 1, ṽariando apenas num caso 
+		de teste. Podemos concluir que a remoção das stop words é um bom método para filtrar grandes quantidades de texto com o objetivo da redução
+		do seu tamanho. Porque para os mesmos casos de teste, foram obtidos resultados muito semelhantes, verificando-se que não houve perda de informação
+		vital do texto.
 
 	3ª:
 
