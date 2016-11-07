@@ -261,7 +261,7 @@ def testing(writers, testing_length, n, flag):
                 if m < ts.s_scores[w]:
                     m = ts.s_scores[w]
                     m_w = w
-            print '[' + t + ' test ' + str(i) + '] ' + m_w
+            print '[' + t + ' test ' + str(i) + '] ' + m_w.name
     return tests
 
 def calc_tf(path, lower, upper):
@@ -367,7 +367,7 @@ def main():
         testing(writers, testing_length, 1, norm_flag)
         testing(writers, testing_length, 2, norm_flag)
     elif(exp_flag == 3):
-        calc_tf_idf(1, 2, 0.1)
+        calc_tf_idf(1, 1, 0.1)
     elif(exp_flag == 4):
         analyze_avg_words_sentence()
 
