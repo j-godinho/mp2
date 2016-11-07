@@ -344,8 +344,8 @@ def calc_tf_idf(lower, upper, top):
             print 'calculating top measures for ' + t + ' ' + str(i)
             m = -1
             for w in writers:
-                top_ranked_test = sorted(tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(tf_idf.keys()))]
-                top_ranked_writer = sorted(writers[w].tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(writers[w].tf_idf.keys()))]
+                top_ranked_test = sorted(tf_idf.items(), key=operator.itemgetter(1))[0:int(top * len(tf_idf.keys()))]
+                top_ranked_writer = sorted(writers[w].tf_idf.items(), key=operator.itemgetter(1))[0:int(top * len(writers[w].tf_idf.keys()))]
                 prec = calc_precision(top_ranked_writer, top_ranked_test)
                 rec = calc_recall(top_ranked_writer, top_ranked_test)
                 f1 = calc_f1(prec, rec)
@@ -368,7 +368,10 @@ def main():
         testing(writers, testing_length, 1, norm_flag)
         testing(writers, testing_length, 2, norm_flag)
     elif(exp_flag == 3):
+        print 'unigrams only'
         calc_tf_idf(1, 1, 0.1)
+        print 'unigrams and bigrams'
+        calc_tf_idf(1, 2, 0.1)
     elif(exp_flag == 4):
         analyze_avg_words_sentence()
 

@@ -39,7 +39,7 @@ Resultados:
 				[500Palavras test 3] EcaDeQueiros
 				[500Palavras test 4] AlmadaNegreiros
 				[500Palavras test 5] LuisaMarquesSilva
-				
+
 				[1000Palavras test 0] JoseSaramago
 				[1000Palavras test 1] AlmadaNegreiros
 				[1000Palavras test 2] LuisaMarquesSilva
@@ -53,17 +53,18 @@ Resultados:
 				[500Palavras test 3] LuisaMarquesSilva
 				[500Palavras test 4] LuisaMarquesSilva
 				[500Palavras test 5] LuisaMarquesSilva
-				
+
 				[1000Palavras test 0] LuisaMarquesSilva
 				[1000Palavras test 1] AlmadaNegreiros
 				[1000Palavras test 2] LuisaMarquesSilva
 				[1000Palavras test 3] LuisaMarquesSilva
 				[1000Palavras test 4] LuisaMarquesSilva
 				[1000Palavras test 5] LuisaMarquesSilva
-		
+
 
 		Experiência 3:
-
+			1-grams
+				
 
 
 		Experiência 4:
@@ -73,7 +74,7 @@ Resultados:
 			[500Palavras test 2] EcaDeQueiros 10.0811379016
 			[500Palavras test 0] EcaDeQueiros 4.80113790158
 			[500Palavras test 5] CamiloCasteloBranco 0.554475176417
-			
+
 			[1000Palavras test 4] JoseSaramago 10.3500256534
 			[1000Palavras test 1] JoseSaramago 28.3603815865
 			[1000Palavras test 3] EcaDeQueiros 5.56950999461
