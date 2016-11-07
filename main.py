@@ -166,23 +166,23 @@ def training(flag, exp_flag):
         print '[' + w + ']'
 
         c_writer.unigrams = calc_n_grams(text, 1, 1, flag)
-        
+
         c_writer.bigrams = calc_n_grams(text, 2, 2, flag)
-        
+
         c_writer.n = calc_number_of_tokens(c_writer.unigrams)
-        
+
         c_writer.v = len(c_writer.unigrams.keys())
-        
+
         c_writer.s_unigrams = smoothing_unigrams(c_writer.unigrams, c_writer.n, c_writer.v)
-        
+
         c_writer.s_bigrams = smoothing_bigrams(c_writer.unigrams, c_writer.bigrams, c_writer.v)
-        
+
         c_writer.unigram_probabilities = calc_unigram_probabilities(c_writer.unigrams, c_writer.n)
-        
+
         c_writer.bigram_probabilities = calc_bigram_probabilities(c_writer.unigrams, c_writer.bigrams)
-        
+
         c_writer.s_unigram_probabilities = calc_unigram_probabilities(c_writer.s_unigrams, c_writer.n)
-        
+
         c_writer.s_bigram_probabilities = calc_bigram_probabilities(c_writer.s_unigrams, c_writer.s_bigrams)
 
         if(exp_flag == 0):
@@ -252,17 +252,19 @@ def testing(writers, testing_length, n, flag):
             ts.s_scores = dict ()
             text = read_file(path + str(i) + '.txt')
 
-            print '[' + t + ' test ' + str(i) + ']'
+
 
             print  str(n) + '-grams'
             ts.ngrams = calc_n_grams(text, n, n, flag)
 
+            m = -1
             for w in writers:
                 ts.scores[w] = test_writer_without_smoothing(w, ts.ngrams, n)
                 ts.s_scores[w] = test_writer_with_smoothing(w, ts.ngrams, n)
-                print  w.name + '\t\t\t' + str(ts.scores[w]) + '\t' + str(ts.s_scores[w])
-
-            print ' '
+                if m < ts.s_scores[w]:
+                    m = ts.s_scores[w]
+                    m_w = w
+            print '[' + t + ' test ' + str(i) + '] ' + m_w
     return tests
 
 def calc_tf(path, lower, upper):
@@ -342,6 +344,7 @@ def calc_tf_idf(lower, upper, top):
                     tf_idf[ngram] = tf[ngram] * log(64/1) # 64 ficheiros de treino
 
             print 'calculating top measures for ' + t + ' ' + str(i)
+            m = -1
             for w in writers.keys():
                 top_ranked_test = sorted(tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(tf_idf.keys()))]
                 top_ranked_writer = sorted(writers[w].tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(writers[w].tf_idf.keys()))]
@@ -349,6 +352,10 @@ def calc_tf_idf(lower, upper, top):
                 rec = calc_recall(top_ranked_writer, top_ranked_test)
                 f1 = calc_f1(prec, rec)
                 print '{}\t{}\t{}\t{}'.format(w, prec, rec, f1)
+                if m < f1:
+                    m = f1
+                    m_w = w
+            print '[' + t + ' ' + str(i) + '] ' + w
             print ' '
 
 def main():
@@ -357,7 +364,6 @@ def main():
 
     if(exp_flag == 0):
         training(norm_flag, exp_flag)
-
     if(exp_flag == 1 or exp_flag==2):
         testing_length = ['500Palavras', '1000Palavras']
         writers = training(norm_flag, exp_flag)
