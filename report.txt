@@ -16,10 +16,12 @@ Opções Tomadas:
 	-A linguagem usada foi Python, pela sua simplicidade e existência de  grande quantidade de bibliotecas referentes a este assunto.
 
 	-Todo o programa pode ser corrido através do script run.sh.
-		# Este script é responsável por criar já as diretorias onde os ficheiros de treino e de teste irão ser escritos após serem normalizados, assim como os ficheiros de unigramas e bigramas referentes a cada autor, com e sem alisamento.
+		# Este script é responsável por criar já as diretorias onde os ficheiros de treino e de teste irão ser escritos após serem
+			normalizados, assim como os ficheiros de unigramas e bigramas referentes a cada autor, com e sem alisamento.
 
-		# O script contém duas flags, uma de normalização, que pode ser escolhida para fazer 4 tipos de normalização e outra chamada de exp_flag usada para escolher qual exercicio pretendemos correr:
-			
+		# O script contém duas flags, uma de normalização, que pode ser escolhida para fazer 4 tipos de normalização e outra chamada
+			de exp_flag usada para escolher qual exercicio pretendemos correr:
+
 			Norm_flag:
 
 			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alinea a) do enunciado)
@@ -30,7 +32,8 @@ Opções Tomadas:
 
 			Flag = 3	-	Stop-Words Portuguesas removidas
 
-	-A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz automaticamente a remoção de tokens muito específicos, como as reticências e não remove hífens dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
+	- A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz automaticamente a remoção
+	de tokens muito específicos, como as reticências e não remove hífens dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
 
 		# Os ficheiros de output seguem a estrutura do ficheiro 'bigramasDEMO.txt' fornecido pelo professor.
 
@@ -87,14 +90,18 @@ Observações:
 
 	Em relação às experiências:
 
-	1ª: A nossa espetativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos afirmar que é bastante incompleta. As probabilidades são muito próximas exceto em casos muito específicos que atribuímos possivelmente a vocabulário e estilos de escrita que se distingue dos restantes autores significativamente.
+	1ª: A nossa espetativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos afirmar que é bastante incompleta.
+		As probabilidades são muito próximas exceto em casos muito específicos que atribuímos possivelmente a vocabulário e estilos de escrita que se
+		distingue dos restantes autores significativamente.
 
 	2ª:
 
 	3ª:
 
-	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago	saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que podemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.
+	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado
+	pequenos para ter uma boa precisão. No entanto para escritores como José Saramago	saberíamos que facilmente este escritor iria ter uma grande
+	média comparativamente a outros, e foi isso que podemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos
+	tirar conclusões acerca do escritor do caso de teste.
 
 
 Resultados:
-

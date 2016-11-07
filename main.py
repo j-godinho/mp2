@@ -344,7 +344,7 @@ def calc_tf_idf(lower, upper, top):
 
             print 'calculating top measures for ' + t + ' ' + str(i)
             m = -1
-            for w in writers.keys():
+            for w in writers:
                 top_ranked_test = sorted(tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(tf_idf.keys()))]
                 top_ranked_writer = sorted(writers[w].tf_idf.items(), key=operator.itemgetter(1))[0:(top * len(writers[w].tf_idf.keys()))]
                 prec = calc_precision(top_ranked_writer, top_ranked_test)
