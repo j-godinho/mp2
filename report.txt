@@ -2,30 +2,32 @@ MP2
 
 Grupo 20:
 Bernardo Casaleiro 	nº87827
-João Godinho 				nº87830
+João Godinho 		nº87830
 
 Bibliotecas externas usadas:
 
 	- nltk (usado para retirar os tokens dos ficheiros e usado para obter as stopwords da língua Portuguesa e sinais de pontuação)
+	
+	- glob (usado para ler todos os ficheiros de uma diretoria)
 
 	- scikit-learn (usado para calcular n-grams e TF-IDF)
 
 Opções Tomadas:
-	-A linguagem usada foi Python, pela sua simplicidade e grande quantidade de bibliotecas referentes a este assunto.
+	-A linguagem usada foi Python, pela sua simplicidade e existência de  grande quantidade de bibliotecas referentes a este assunto.
 
 	-Todo o programa pode ser corrido através do script run.sh.
-		# Este script é responsável por criar já as directorias onde os ficheiros de treino e de teste irão
-		ser escritos após serem normalizados, assim como os ficheiros de unigramas e bigramas referentes a
-		cada autor, com e sem alisamento.
+		# Este script é responsável por criar já as diretorias onde os ficheiros de treino e de teste irão ser escritos após serem normalizados, assim como os ficheiros de unigramas e bigramas referentes a cada autor, com e sem alisamento.
 
 		# O script contém uma flag de normalização, que pode ser escolhida para fazer 4 tipos de normalização:
-			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alinea a do enunciado)
+			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alinea a) do enunciado)
 
-			Flag = 1	-	Texto é passado para letra minuscula
+			Flag = 1	-	Texto é passado para letra minúscula
 
 			Flag = 2	-	Remoção da pontuação e case-sensitive
 
 			Flag = 3	-	Stop-Words Portuguesas removidas
+
+	-A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz automaticamente a remoção de tokens muito específicos, como as reticências e não remove hífens dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
 
 		# Os ficheiros de output seguem a estrutura do ficheiro 'bigramasDEMO.txt' fornecido pelo professor.
 
@@ -43,41 +45,49 @@ Opções Tomadas:
 		tokenizer que não é o default da biblioteca. Por default esta usa os sinais de pontuação como separadores.
 
 	- A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz
-		automaticamente a remoção de tokens muito especificos, como as reticências e outros simbolos não
-		removendo hifens dentro de palavras, como por exemplo "come-as", mantendo toda a palavra como um token.
+		automaticamente a remoção de tokens muito específicos, como as reticências e outros símbolos não
+		removendo hifenes dentro de palavras, como por exemplo "come-as", mantendo toda a palavra como um token.
 
 Experiências:
 
+	Apesar de termos desenvolvido várias técnicas de normalização, escolhemos apenas usar para as experiências as que achamos mais pertinentes para comentar.
+	
 	1ª: A primeira experiencia e mais básica limita-se a fazer as contagens e calculo de probabilidade de
 		unigramas ou bigramas dos ficheiros de treino de cada autor. De seguida é feita a divisão para cada ficheiro
-		de teste em unigramas ou bigramas, respectivamente, e calculada a probabilidade desse ficheiro de teste
+		de teste em unigramas ou bigramas, respetivamente, e calculada a probabilidade desse ficheiro de teste
 		pertencer a cada autor. Este calculo é feito através da multiplicação das probabilidades de cada unigrama
 		ou bigrama ocorrentes no ficheiro de teste e calculadas usando ficheiros de treino. Para isto foram usadas
 		duas versões, uma com alisamento add-one e outra sem alisamento.
 
-	2ª: Uma das experiências que fizémos foi calcular a média de palavras por frase de cada escritor.
+	2ª: Uma das experiências que fizemos foi calcular a média de palavras por frase de cada escritor.
 		Para calcularmos o número de frases contámos simplesmente o número pontos de exclamação e interrogação,
 		pontos finais, reticências e ponto e vírgula [!?.(...);]. O que nos pareceu uma boa aproximação para contar as frases.
 		Para cada escritor foi calculado a média de palavras por frase e para cada caso de teste foi feito o
-		mesmo procedimento, comparando-se depois a minima diferença entre cada escritor e aquele caso de teste.
+		mesmo procedimento, comparando-se depois a mínima diferença entre cada escritor e aquele caso de teste.
+
+	3ª: Stop Words
+
+	4ª: Tf-Idf
 
 
 Observações:
 
-	1ª: A nossa espectativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos
-		afirmar que é bastante incompleta. As probabilidades são muito proximas excepto em casos muito especificos
-		que atribuimos possivelmente a vocabulário e estilos de escrita que se distingue dos restantes autores significativamente.
+	Todas as técnicas de normalização foram testadas e concluímos que:
+		
+		- Apesar de acharmos que usando um texto case sensitive traria melhores resultados (Rosa != rosa), verificámos que não se notou grande diferença.
+		
+		- O mesmo se sucedeu com o uso de sinais de pontuação para os cálculos dos n-gramas.
+		
 
-	2ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os
-		casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago
-		saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que
-		podemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões
-		acerca do escritor do caso de teste.
+	Em relação às experiências:
+	1ª: A nossa espetativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos afirmar que é bastante incompleta. As probabilidades são muito próximas exceto em casos muito específicos que atribuímos possivelmente a vocabulário e estilos de escrita que se distingue dos restantes autores significativamente.
+
+	2ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado pequenos para ter uma boa precisão. No entanto para escritores como José Saramago	saberíamos que facilmente este escritor iria ter uma grande média comparativamente a outros, e foi isso que podemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.
+
+	3ª:
+
+	4ª:
 
 
-#0 - José Rodrigues dos Santos
-#1 - José Saramago
-#2 - Eça de Queirós
-#3 - Almada Negreiros
-#4 - Camilo Castelo Branco
-#5 -
+Resultados:
+
