@@ -31,8 +31,7 @@ Opções Tomadas:
 			Flag = 3	-	Stop-Words Portuguesas removidas e pontuação ignorada
 
 	- A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz automaticamente a remoção
-	  de tokens muito específicos, como as reticências e não remove hífenes dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
-		Tem também outras características que facilitam bastante esta tarefa.
+	  de tokens muito específicos, como as reticências e não remove hífenes dentro de palavras, por exemplo "come-as", nem pontos no meio de números (float), mantendo toda a palavra como um token.
 
 		# Os ficheiros de output seguem a estrutura do ficheiro 'bigramasDEMO.txt' fornecido pelo professor.
 
@@ -106,7 +105,9 @@ Observações:
 
 	3ª: Esta experiencia é bastante interessante para o caso do mesmo escritor escrever sobre os mesmos temas tanto nos ficheiros de treino como no ficheiro
 		de teste. Seria assim esperado que os resultados fossem maus, pois os temas são variados, no entanto os resultados mostram que cada autor usa palavras
-		caracteristicas, permitindo assim uma distinção entre os autores e tornando os resultados melhores do que o esperado.
+		características, permitindo assim uma distinção entre os autores e tornando os resultados melhores do que o esperado.
+		[Apesar de ter sido testado, quando nos preparávamos para enviar o projeto final não foi possível a obtenção dos resultados oficiais devido à alta 
+		complexidade do algoritmo]
 
 	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado
 	pequenos para ter uma boa precisão. No entanto para escritores como José Saramago saberíamos que facilmente este escritor iria obter uma grande
