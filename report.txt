@@ -8,11 +8,9 @@ Bibliotecas externas usadas:
 
 	- nltk (usado para retirar os tokens dos ficheiros e usado para obter as stopwords da língua Portuguesa e sinais de pontuação)
 	
-	-nltk (usado para retirar os tokens dos ficheiros e usado para obter as stopwords da língua Portuguesa e sinais de pontuação)
+	- glob (usado para ler todos os ficheiros de uma diretoria)
 	
-	-glob (usado para ler todos os ficheiros de uma diretoria)
-	
-	-sklearn (usado para calcular n-grams e TF-IDF)
+	- sklearn (usado para calcular n-grams e TF-IDF)
 
 	- scikit-learn (usado para calcular n-grams e TF-IDF)
 
