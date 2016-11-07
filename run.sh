@@ -53,7 +53,7 @@ python normalization.py $norm_flag
 python main.py $norm_flag $exp_flag
 
 echo 'Alinea 1'
-norm_flag="0"
+norm_flag="2"
 exp_flag="0"
 python normalization.py $norm_flag 
 python main.py $norm_flag $exp_flag
