@@ -5,6 +5,7 @@ from collections import Counter
 from nltk import word_tokenize
 from decimal import Decimal
 from math import log
+import operator
 import glob
 import sys
 import io
