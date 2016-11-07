@@ -63,8 +63,14 @@ Resultados:
 
 
 		Experiência 3:
-			1-grams
-				
+			1-grams 500Palavras ficheiro 0
+			AlmadaNegreiros	0.222222222222	0.0062893081761	0.0282485875706
+			EcaDeQueiros	0.0740740740741	0.000508388408744	0.00247402276101
+			JoseRodriguesSantos	0.037037037037	0.00020475020475	0.0010016025641
+			CamiloCasteloBranco	0.0	0.0	0
+			JoseSaramago	0.037037037037	0.000211104074309	0.00103199174407
+			LuisaMarquesSilva	0.0740740740741	0.00201409869084	0.00908265213442
+			[500Palavras test 0] LuisaMarquesSilva
 
 
 		Experiência 4:

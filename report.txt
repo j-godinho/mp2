@@ -106,8 +106,8 @@ Observações:
 	3ª: Esta experiencia é bastante interessante para o caso do mesmo escritor escrever sobre os mesmos temas tanto nos ficheiros de treino como no ficheiro
 		de teste. Seria assim esperado que os resultados fossem maus, pois os temas são variados, no entanto os resultados mostram que cada autor usa palavras
 		características, permitindo assim uma distinção entre os autores e tornando os resultados melhores do que o esperado.
-		[Apesar de ter sido testado, quando nos preparávamos para enviar o projeto final não foi possível a obtenção dos resultados oficiais devido à alta 
-		complexidade do algoritmo]
+		[Apesar de ter sido testado, quando nos preparávamos para enviar o projeto final não foi possível a obtenção dos resultados oficiais devido à alta
+		complexidade do algoritmo, por isso apenas enviamos o resultado de um dos ficheiros de teste]
 
 	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado
 	pequenos para ter uma boa precisão. No entanto para escritores como José Saramago saberíamos que facilmente este escritor iria obter uma grande

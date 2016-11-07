@@ -351,11 +351,11 @@ def calc_tf_idf(lower, upper, top):
                 prec = calc_precision(top_ranked_writer, top_ranked_test)
                 rec = calc_recall(top_ranked_writer, top_ranked_test)
                 f1 = calc_f1(prec, rec)
-                print '{}\t{}\t{}\t{}'.format(w, prec, rec, f1)
+                print '{}\t{}\t{}\t{}'.format(w.name, prec, rec, f1)
                 if m < f1:
                     m = f1
                     m_w = w
-            print '[' + t + ' ' + str(i) + '] ' + w
+            print '[' + t + ' ' + str(i) + '] ' + w.name
             print ' '
 
 def main():
