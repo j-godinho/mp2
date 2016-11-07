@@ -18,11 +18,11 @@ Opções Tomadas:
 			normalizados, assim como os ficheiros de unigramas e bigramas referentes a cada autor, com e sem alisamento.
 
 		# O script contém duas flags, uma de normalização, que pode ser escolhida para fazer 4 tipos de normalização e outra chamada
-			de exp_flag usada para escolher qual exercicio pretendemos correr:
+			de exp_flag usada para escolher qual exercício pretendemos correr:
 
 			Norm_flag:
 
-			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alinea a) do enunciado)
+			Flag = 0	-	A pontuação é rodeada por espaços brancos (pedido na alínea a) do enunciado)
 
 			Flag = 1	-	Texto é passado para letra minúscula e pontuação é ignorada (mantém-se na normalização mas ignorado na tokenization)
 
@@ -31,7 +31,7 @@ Opções Tomadas:
 			Flag = 3	-	Stop-Words Portuguesas removidas e pontuação ignorada
 
 	- A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz automaticamente a remoção
-	  de tokens muito específicos, como as reticências e não remove hífens dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
+	  de tokens muito específicos, como as reticências e não remove hífenes dentro de palavras, por exemplo "come-as", mantendo toda a palavra como um token.
 		Tem também outras características que facilitam bastante esta tarefa.
 
 		# Os ficheiros de output seguem a estrutura do ficheiro 'bigramasDEMO.txt' fornecido pelo professor.
@@ -42,7 +42,7 @@ Opções Tomadas:
 			- contagem de unigramas com alisamento usando add-one
 			- contagem de bigramas com alisamento usando add-one
 			* Volto a salientar que nestes ficheiros se encontram as contagens com alisamento e não as probabilidades,
-			para o calculo da sua probabilidade basta recorrer à formula P(wi) = ci*/N para os unigramas e
+			para o cálculo da sua probabilidade basta recorrer à formula P(wi) = ci*/N para os unigramas e
 			P(wi|wi-1) = ci* / (#wi-1) para os bigramas.
 
 	- Para retirar os n-grams foi usada a classe CountVerifier da biblioteca scikit-learn.
@@ -51,7 +51,7 @@ Opções Tomadas:
 
 	- A função word_tokenize da biblioteca nltk auxiliou-nos bastante no parsing dos tokens dado que já faz
 		automaticamente a remoção de tokens muito específicos, como as reticências e outros símbolos não
-		removendo hifenes dentro de palavras, como por exemplo "come-as", mantendo toda a palavra como um token.
+		removendo hífenes dentro de palavras, como por exemplo "come-as", mantendo toda a palavra como um token.
 
 Experiências:
 
@@ -75,7 +75,7 @@ Experiências:
 		O mesmo processo é aplicado para os ficheiro de teste e calculado a precisão, abrangência e F-Measure entre cada autor e o teste.
 		Sendo o autor escolhido consuante a medida F-Measure.
 
-	4ª: Por último quisémos tomar uma abordagem muito simples e calcular a média de palavras por frase de cada escritor.
+	4ª: Por último quisemos tomar uma abordagem muito simples e calcular a média de palavras por frase de cada escritor.
 		Para calcularmos o número de frases contámos o número pontos de exclamação e interrogação,
 		pontos finais, reticências e ponto e vírgula [!?.(...);]. O que nos pareceu uma boa aproximação para contar as frases.
 		Para cada escritor foi calculado a média de palavras por frase e para cada caso de teste foi feito o
@@ -89,17 +89,17 @@ Observações:
 
 		- Apesar de acharmos que usando um texto case sensitive traria melhores resultados (Rosa != rosa), verificámos que não se notou grande diferença.
 
-		- O mesmo se sucedeu com o uso de sinais de pontuação para os cálculos dos n-gramas, portanto em todas as experiências à excepção da alinea a) e da
+		- O mesmo se sucedeu com o uso de sinais de pontuação para os cálculos dos n-gramas, portanto em todas as experiências à exceção da alínea a) e da
 		última experiência.
 
 
 	Em relação às experiências:
 
-	1ª: A nossa espetativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos afirmar que é bastante incompleta.
+	1ª: A nossa expectativa para esta experiencia era alta, no entanto ao depararmo-nos com os resultados podemos afirmar que é bastante incompleta.
 		As probabilidades são muito próximas exceto em casos muito específicos que atribuímos possivelmente a vocabulário e estilos de escrita que se
 		distingue dos restantes autores significativamente. Podemos dizer que a dimensão do corpus ainda era muito reduzida para o uso de bigramas.
 
-	2ª: Como pudemos observar pelos resultados obtidos, a remoção das stop words não trouxe grande diferença à experiência 1, ṽariando apenas num caso
+	2ª: Como pudemos observar pelos resultados obtidos, a remoção das stop words não trouxe grande diferença à experiência 1, variando apenas num caso
 		de teste. Podemos concluir que a remoção das stop words é um bom método para filtrar grandes quantidades de texto com o objetivo da redução
 		do seu tamanho. Porque para os mesmos casos de teste, foram obtidos resultados muito semelhantes, verificando-se que não houve perda de informação
 		vital do texto.
@@ -111,7 +111,7 @@ Observações:
 	4ª: Apesar de no início acharmos que obteríamos bons resultados nesta experiência facilmente verificámos que os casos de teste eram demasiado
 	pequenos para ter uma boa precisão. No entanto para escritores como José Saramago saberíamos que facilmente este escritor iria obter uma grande
 	média de palavras por frase comparativamente a outros, e foi isso que pudemos confirmar. No entanto para escritores com uma escrita mais comum dificilmente conseguimos tirar conclusões acerca do escritor do caso de teste.
-		Após recolher os dados reparámos que podiamos usar este método apenas para identificar escritores que realmente tenham uma escrita fora do normal em termos
-		de uso de pontuação, como por exemplo para reconhecer poemas vs prosa. Podiamos melhorar esta abordagem fazendo com que o nosso identificador apenas
-		identificasse o escritor se este tivesse uma diferença minima maior do que um determinado valor, evitando assim que se identificasse um escritor quando
+		Após recolher os dados reparámos que podíamos usar este método apenas para identificar escritores que realmente tenham uma escrita fora do normal em termos
+		de uso de pontuação, como por exemplo para reconhecer poemas vs prosa. Podíamos melhorar esta abordagem fazendo com que o nosso identificador apenas
+		identificasse o escritor se este tivesse uma diferença mínima maior do que um determinado valor, evitando assim que se identificasse um escritor quando
 		existisse outro que tivesse uma média de palavras também parecida.
