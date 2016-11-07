@@ -117,7 +117,7 @@ def compare_values(writers_dict, value):
         if(distance<min_value):
             writer_chosen = key
             min_value=distance
-    return writer_chosen
+    return writer_chosen, min_value
 
 def analyze_avg_words_sentence():
     writers_dict = analyze_writers()
@@ -132,7 +132,8 @@ def analyze_avg_words_sentence():
 
     for file in files:
         average_words = average_words_sentence(file)
-        print file + " " + compare_values(writers_dict, average_words)
+        returned = compare_values(writers_dict, average_words)
+        print file + " " + returned[0] + " " + str(returned[1])
 
 def output_with_smoothing(path, writer):
     f_u = io.open(path + 'smoothed_unigrams.txt', 'w', encoding='utf8')
